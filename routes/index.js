@@ -4,19 +4,17 @@ const axios = require("axios");
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
-
 	const options = {
 		method: 'GET',
-		url: 'https://zillow56.p.rapidapi.com/search',
-		params: {location: location},
+		url: 'https://realty-mole-property-api.p.rapidapi.com/salePrice',
+		params: {address: location},
 		headers: {
 			'X-RapidAPI-Key': '983ea19bf5msh0178fe7715948dcp11b14ajsnadb182e8da0a',
-			'X-RapidAPI-Host': 'zillow56.p.rapidapi.com'
+			'X-RapidAPI-Host': 'realty-mole-property-api.p.rapidapi.com'
 		}
 	};
 	axios.request(options).then(function (response) {
-		const { zestimate } = response.data;
-		res.send({ value: zestimate })
+		res.send({ value: response.data })
 	}).catch(function (error) {
 		res.send(error)
 	});
@@ -33,7 +31,8 @@ router.get('/local-restaurants', function (req, res) {
 	};
 	axios.request(options).then(function (response) {
 		const { data } = response;
-		res.send(data)
+		const { results } = data;
+		res.send(results)
 	}).catch(function (error) {
 		res.send(error)
 	});
