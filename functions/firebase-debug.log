@@ -1,0 +1,610 @@
+[debug] [2023-04-09T00:26:21.066Z] ----------------------------------------------------------------------
+[debug] [2023-04-09T00:26:21.067Z] Command:       /Users/trell/.nvm/versions/node/v17.5.0/bin/node /Users/trell/.nvm/versions/node/v17.5.0/bin/firebase functions:shell
+[debug] [2023-04-09T00:26:21.067Z] CLI Version:   11.24.1
+[debug] [2023-04-09T00:26:21.067Z] Platform:      darwin
+[debug] [2023-04-09T00:26:21.067Z] Node Version:  v17.5.0
+[debug] [2023-04-09T00:26:21.068Z] Time:          Sat Apr 08 2023 20:26:21 GMT-0400 (Eastern Daylight Time)
+[debug] [2023-04-09T00:26:21.068Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-04-09T00:26:21.102Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-09T00:26:21.102Z] > authorizing via signed-in user (jubileeinvestmentsdmv@gmail.com)
+[debug] [2023-04-09T00:26:21.103Z] [iam] checking project real-estate-app-9a719 for permissions ["firebase.projects.get"]
+[debug] [2023-04-09T00:26:21.103Z] > refreshing access token with scopes: []
+[debug] [2023-04-09T00:26:21.104Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-04-09T00:26:21.104Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-09T00:26:21.329Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-04-09T00:26:21.329Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-09T00:26:21.335Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/real-estate-app-9a719:testIamPermissions [none]
+[debug] [2023-04-09T00:26:21.335Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/real-estate-app-9a719:testIamPermissions x-goog-quota-user=projects/real-estate-app-9a719
+[debug] [2023-04-09T00:26:21.336Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/real-estate-app-9a719:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-04-09T00:26:21.466Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/real-estate-app-9a719:testIamPermissions 200
+[debug] [2023-04-09T00:26:21.466Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/real-estate-app-9a719:testIamPermissions {"permissions":["firebase.projects.get"]}
+[warn] ⚠  functions: Functions Emulator unable to start on port 5000, starting on 5002 instead. {"metadata":{"emulator":{"name":"functions"},"message":"Functions Emulator unable to start on port 5000, starting on 5002 instead."}}
+[debug] [2023-04-09T00:26:21.717Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-04-09T00:26:21.718Z] defaultcredentials: writing to file /Users/trell/.config/firebase/jubileeinvestmentsdmv_gmail_com_application_default_credentials.json
+[debug] [2023-04-09T00:26:21.721Z] DEBUG: Setting GAC to /Users/trell/.config/firebase/jubileeinvestmentsdmv_gmail_com_application_default_credentials.json
+[debug] [2023-04-09T00:26:21.721Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/real-estate-app-9a719/adminSdkConfig [none]
+[debug] [2023-04-09T00:26:22.074Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/real-estate-app-9a719/adminSdkConfig 200
+[debug] [2023-04-09T00:26:22.074Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/real-estate-app-9a719/adminSdkConfig {"projectId":"real-estate-app-9a719","storageBucket":"real-estate-app-9a719.appspot.com","locationId":"us-central"}
+[debug] [2023-04-09T00:26:22.084Z] [functions] Watching "/Users/trell/Projects/node-js/functions" for Cloud Functions...
+[debug] [2023-04-09T00:26:22.087Z] Validating nodejs source
+[debug] [2023-04-09T00:26:22.470Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:26:22.471Z] Building nodejs source
+[debug] [2023-04-09T00:26:22.471Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:26:22.473Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:26:22.477Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:26:22.578Z] Serving at port 8719
+
+[debug] [2023-04-09T00:26:22.705Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:26:22.709Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:26:22.713Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:26:22.713Z] [functions[us-central1-sendPdfEmail]] http function initialized (http://127.0.0.1:5002/real-estate-app-9a719/us-central1/sendPdfEmail).
+[info] i  functions: Loaded functions: sendPdfEmail 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage, eventarc 
+[debug] [2023-04-09T00:26:32.909Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:26:33.912Z] Validating nodejs source
+[debug] [2023-04-09T00:26:34.309Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:26:34.309Z] Building nodejs source
+[debug] [2023-04-09T00:26:34.309Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:26:34.311Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:26:34.312Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:26:34.423Z] Serving at port 8257
+
+[debug] [2023-04-09T00:26:34.672Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:26:34.674Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:26:34.678Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:26:46.086Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:26:47.088Z] Validating nodejs source
+[debug] [2023-04-09T00:26:47.590Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:26:47.590Z] Building nodejs source
+[debug] [2023-04-09T00:26:47.590Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:26:47.591Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:26:47.592Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:26:47.698Z] Serving at port 8970
+
+[debug] [2023-04-09T00:26:47.834Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:26:47.836Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:26:47.839Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:27:00.497Z] [work-queue] {"queuedWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:27:00.497Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-04-09T00:27:00.497Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:27:00.497Z"],"workRunningCount":1}
+[debug] [2023-04-09T00:27:00.498Z] Accepted request GET /real-estate-app-9a719/us-central1/sendPdfEmail --> us-central1-sendPdfEmail
+[debug] [2023-04-09T00:27:00.502Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2023-04-09T00:27:00.502Z] DEBUG: [functions] Got req.url=/real-estate-app-9a719/us-central1/sendPdfEmail, mapping to path=/
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:27:00.510Z] DEBUG: [worker-pool] addWorker(us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:27:00.511Z] DEBUG: [worker-pool] Adding worker with key us-central1-sendPdfEmail, total=1
+[debug] [2023-04-09T00:27:01.130Z] DEBUG: [runtime-status] [82892] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:27:01.131Z] DEBUG: [runtime-status] [82892] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:27:01.131Z] DEBUG: [runtime-status] [82892] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2023-04-09T00:27:01.131Z] DEBUG: [runtime-status] [82892] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:27:01.233Z] DEBUG: [runtime-status] [82892] Checked functions.config() {"config":{}}
+[debug] [2023-04-09T00:27:01.233Z] DEBUG: [runtime-status] [82892] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}}
+[debug] [2023-04-09T00:27:01.233Z] DEBUG: [runtime-status] [82892] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:27:01.233Z] DEBUG: [runtime-status] [82892] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:27:01.234Z] DEBUG: [runtime-status] [82892] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:27:01.234Z] DEBUG: [runtime-status] [82892] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}}
+[warn] ⚠  It looks like you're trying to access functions.config().firebase but there is no value there. You can learn more about setting up config here: https://firebase.google.com/docs/functions/local-emulator {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"It looks like you're trying to access functions.config().firebase but there is no value there. You can learn more about setting up config here: https://firebase.google.com/docs/functions/local-emulator"}}
+[debug] [2023-04-09T00:27:01.246Z] DEBUG: [runtime-status] [82892] initializeApp(DEFAULT) {"storageBucket":"real-estate-app-9a719.appspot.com","projectId":"real-estate-app-9a719"}
+[debug] [2023-04-09T00:27:01.249Z] DEBUG: [runtime-status] [82892] Functions runtime initialized. {"cwd":"/Users/trell/Projects/node-js/functions","node_version":"17.5.0"}
+[debug] [2023-04-09T00:27:01.249Z] DEBUG: [runtime-status] [82892] Listening to port: /var/folders/fl/tqpsmh1x4yqc83wbv_60wjfw0000gn/T/fire_emu_81fc90edd67a2d73.sock
+[debug] [2023-04-09T00:27:01.327Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: IDLE
+[debug] [2023-04-09T00:27:01.327Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:27:01.327Z] [functions] Beginning execution of "us-central1-sendPdfEmail"
+[debug] [2023-04-09T00:27:01.327Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: BUSY
+[debug] [2023-04-09T00:27:01.330Z] [functions] Finished "us-central1-sendPdfEmail" in 2.527834ms
+[debug] [2023-04-09T00:27:01.330Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: IDLE
+[debug] [2023-04-09T00:27:01.330Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[info] >  202 {"user":202,"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m 202"}}
+[info] >  { {"user":"{","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m {"}}
+[info] >    server: 'nginx', {"user":"  server: 'nginx',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   server: 'nginx',"}}
+[info] >    date: 'Sun, 09 Apr 2023 00:27:01 GMT', {"user":"  date: 'Sun, 09 Apr 2023 00:27:01 GMT',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   date: 'Sun, 09 Apr 2023 00:27:01 GMT',"}}
+[info] >    'content-length': '0', {"user":"  'content-length': '0',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'content-length': '0',"}}
+[info] >    connection: 'close', {"user":"  connection: 'close',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   connection: 'close',"}}
+[info] >    'x-message-id': '8JUuTGG_Q7m-FaD6TN4ygg', {"user":"  'x-message-id': '8JUuTGG_Q7m-FaD6TN4ygg',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'x-message-id': '8JUuTGG_Q7m-FaD6TN4ygg',"}}
+[info] >    'access-control-allow-origin': 'https://sendgrid.api-docs.io', {"user":"  'access-control-allow-origin': 'https://sendgrid.api-docs.io',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'access-control-allow-origin': 'https://sendgrid.api-docs.io',"}}
+[info] >    'access-control-allow-methods': 'POST', {"user":"  'access-control-allow-methods': 'POST',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'access-control-allow-methods': 'POST',"}}
+[info] >    'access-control-allow-headers': 'Authorization, Content-Type, On-behalf-of, x-sg-elas-acl', {"user":"  'access-control-allow-headers': 'Authorization, Content-Type, On-behalf-of, x-sg-elas-acl',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'access-control-allow-headers': 'Authorization, Content-Type, On-behalf-of, x-sg-elas-acl',"}}
+[info] >    'access-control-max-age': '600', {"user":"  'access-control-max-age': '600',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'access-control-max-age': '600',"}}
+[info] >    'x-no-cors-reason': 'https://sendgrid.com/docs/Classroom/Basics/API/cors.html', {"user":"  'x-no-cors-reason': 'https://sendgrid.com/docs/Classroom/Basics/API/cors.html',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'x-no-cors-reason': 'https://sendgrid.com/docs/Classroom/Basics/API/cors.html',"}}
+[info] >    'strict-transport-security': 'max-age=600; includeSubDomains' {"user":"  'strict-transport-security': 'max-age=600; includeSubDomains'","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m   'strict-transport-security': 'max-age=600; includeSubDomains'"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m }"}}
+[debug] [2023-04-09T00:30:37.639Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:30:38.641Z] Validating nodejs source
+[debug] [2023-04-09T00:30:39.083Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:30:39.083Z] Building nodejs source
+[debug] [2023-04-09T00:30:39.084Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:30:39.085Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:30:39.087Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:30:39.206Z] Serving at port 8675
+
+[debug] [2023-04-09T00:30:39.351Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:30:39.355Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:30:39.363Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:30:39.363Z] DEBUG: [worker-pool] Shutting down IDLE worker (us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:30:39.363Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: FINISHING
+[debug] [2023-04-09T00:30:39.371Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: exited
+[debug] [2023-04-09T00:30:39.371Z] DEBUG: [worker-us-central1-sendPdfEmail-1791e295-7740-4b27-bbc7-2c8a0eeea56f]: FINISHED
+[debug] [2023-04-09T00:31:08.015Z] [work-queue] {"queuedWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:31:08.015Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-04-09T00:31:08.016Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:31:08.015Z"],"workRunningCount":1}
+[debug] [2023-04-09T00:31:08.016Z] Accepted request GET /real-estate-app-9a719/us-central1/sendPdfEmail --> us-central1-sendPdfEmail
+[debug] [2023-04-09T00:31:08.020Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2023-04-09T00:31:08.021Z] DEBUG: [functions] Got req.url=/real-estate-app-9a719/us-central1/sendPdfEmail, mapping to path=/
+[debug] [2023-04-09T00:31:08.021Z] DEBUG: [worker-pool] Cleaned up workers for us-central1-sendPdfEmail: 1 --> 0
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:31:08.025Z] DEBUG: [worker-pool] addWorker(us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:31:08.026Z] DEBUG: [worker-pool] Adding worker with key us-central1-sendPdfEmail, total=1
+[debug] [2023-04-09T00:31:08.650Z] DEBUG: [runtime-status] [82980] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:31:08.651Z] DEBUG: [runtime-status] [82980] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:31:08.651Z] DEBUG: [runtime-status] [82980] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2023-04-09T00:31:08.651Z] DEBUG: [runtime-status] [82980] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:31:08.756Z] DEBUG: [runtime-status] [82980] Checked functions.config() {"config":{}}
+[debug] [2023-04-09T00:31:08.756Z] DEBUG: [runtime-status] [82980] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}}
+[debug] [2023-04-09T00:31:08.756Z] DEBUG: [runtime-status] [82980] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:31:08.757Z] DEBUG: [runtime-status] [82980] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:31:08.758Z] DEBUG: [runtime-status] [82980] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:31:08.758Z] DEBUG: [runtime-status] [82980] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2023-04-09T00:31:08.770Z] DEBUG: [runtime-status] [82980] initializeApp(DEFAULT) {"storageBucket":"real-estate-app-9a719.appspot.com","projectId":"real-estate-app-9a719"}
+[debug] [2023-04-09T00:31:08.774Z] DEBUG: [runtime-status] [82980] Functions runtime initialized. {"cwd":"/Users/trell/Projects/node-js/functions","node_version":"17.5.0"}
+[debug] [2023-04-09T00:31:08.774Z] DEBUG: [runtime-status] [82980] Listening to port: /var/folders/fl/tqpsmh1x4yqc83wbv_60wjfw0000gn/T/fire_emu_3833a16f80d11565.sock
+[debug] [2023-04-09T00:31:08.843Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: IDLE
+[debug] [2023-04-09T00:31:08.843Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:31:08.843Z] [functions] Beginning execution of "us-central1-sendPdfEmail"
+[debug] [2023-04-09T00:31:08.843Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: BUSY
+[debug] [2023-04-09T00:31:08.845Z] [functions] Finished "us-central1-sendPdfEmail" in 2.4625ms
+[debug] [2023-04-09T00:31:08.845Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: IDLE
+[debug] [2023-04-09T00:31:08.845Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[info] >  was this successful {"user":"was this successful","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m was this successful"}}
+[debug] [2023-04-09T00:33:27.957Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:33:28.974Z] Validating nodejs source
+[debug] [2023-04-09T00:33:29.429Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:33:29.429Z] Building nodejs source
+[debug] [2023-04-09T00:33:29.429Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:33:29.433Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:33:29.434Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:33:29.551Z] Serving at port 8465
+
+[debug] [2023-04-09T00:33:29.696Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:33:29.698Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:33:29.701Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:33:29.701Z] DEBUG: [worker-pool] Shutting down IDLE worker (us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:33:29.701Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: FINISHING
+[debug] [2023-04-09T00:33:29.708Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: exited
+[debug] [2023-04-09T00:33:29.708Z] DEBUG: [worker-us-central1-sendPdfEmail-6c969f50-fa65-4f9c-ae29-23ab32c42931]: FINISHED
+[debug] [2023-04-09T00:33:32.890Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:33:33.890Z] Validating nodejs source
+[debug] [2023-04-09T00:33:34.650Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:33:34.650Z] Building nodejs source
+[debug] [2023-04-09T00:33:34.651Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:33:34.651Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:33:34.652Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:33:34.732Z] Serving at port 8237
+
+[debug] [2023-04-09T00:33:34.812Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:33:34.814Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:33:34.817Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:36:12.171Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:36:13.179Z] Validating nodejs source
+[debug] [2023-04-09T00:36:13.999Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:36:13.999Z] Building nodejs source
+[debug] [2023-04-09T00:36:13.999Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:36:14.001Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:36:14.001Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:36:14.110Z] Serving at port 8205
+
+[debug] [2023-04-09T00:36:14.254Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:36:14.256Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:36:14.260Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:38:06.794Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:38:07.799Z] Validating nodejs source
+[debug] [2023-04-09T00:38:08.298Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:38:08.298Z] Building nodejs source
+[debug] [2023-04-09T00:38:08.298Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:38:08.299Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:38:08.300Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:38:08.401Z] Serving at port 8848
+
+[debug] [2023-04-09T00:38:08.528Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:38:08.530Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:38:08.533Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:38:15.579Z] [work-queue] {"queuedWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:38:15.579Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-04-09T00:38:15.579Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/real-estate-app-9a719/us-central1/sendPdfEmail-2023-04-09T00:38:15.579Z"],"workRunningCount":1}
+[debug] [2023-04-09T00:38:15.579Z] Accepted request GET /real-estate-app-9a719/us-central1/sendPdfEmail --> us-central1-sendPdfEmail
+[debug] [2023-04-09T00:38:15.585Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2023-04-09T00:38:15.585Z] DEBUG: [functions] Got req.url=/real-estate-app-9a719/us-central1/sendPdfEmail, mapping to path=/
+[debug] [2023-04-09T00:38:15.585Z] DEBUG: [worker-pool] Cleaned up workers for us-central1-sendPdfEmail: 1 --> 0
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:38:15.590Z] DEBUG: [worker-pool] addWorker(us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:38:15.590Z] DEBUG: [worker-pool] Adding worker with key us-central1-sendPdfEmail, total=1
+[debug] [2023-04-09T00:38:16.216Z] DEBUG: [runtime-status] [83235] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:38:16.217Z] DEBUG: [runtime-status] [83235] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:38:16.217Z] DEBUG: [runtime-status] [83235] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2023-04-09T00:38:16.217Z] DEBUG: [runtime-status] [83235] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:38:16.315Z] DEBUG: [runtime-status] [83235] Checked functions.config() {"config":{}}
+[debug] [2023-04-09T00:38:16.315Z] DEBUG: [runtime-status] [83235] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}}
+[debug] [2023-04-09T00:38:16.315Z] DEBUG: [runtime-status] [83235] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:38:16.315Z] DEBUG: [runtime-status] [83235] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2023-04-09T00:38:16.317Z] DEBUG: [runtime-status] [83235] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.2.1","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-functions/lib/v1/index.js"}
+[debug] [2023-04-09T00:38:16.317Z] DEBUG: [runtime-status] [83235] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.6.0","resolution":"/Users/trell/Projects/node-js/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2023-04-09T00:38:16.328Z] DEBUG: [runtime-status] [83235] initializeApp(DEFAULT) {"storageBucket":"real-estate-app-9a719.appspot.com","projectId":"real-estate-app-9a719"}
+[debug] [2023-04-09T00:38:16.331Z] DEBUG: [runtime-status] [83235] Functions runtime initialized. {"cwd":"/Users/trell/Projects/node-js/functions","node_version":"17.5.0"}
+[debug] [2023-04-09T00:38:16.331Z] DEBUG: [runtime-status] [83235] Listening to port: /var/folders/fl/tqpsmh1x4yqc83wbv_60wjfw0000gn/T/fire_emu_ab1bcee99103364f.sock
+[debug] [2023-04-09T00:38:16.404Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: IDLE
+[debug] [2023-04-09T00:38:16.404Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:38:16.404Z] [functions] Beginning execution of "us-central1-sendPdfEmail"
+[debug] [2023-04-09T00:38:16.404Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: BUSY
+[debug] [2023-04-09T00:38:16.406Z] [functions] Finished "us-central1-sendPdfEmail" in 2.296292ms
+[debug] [2023-04-09T00:38:16.406Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: IDLE
+[debug] [2023-04-09T00:38:16.406Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[info] >   {"user":"","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m "}}
+[info] >  Content with characters ', " or & may need to be escaped with three brackets {"user":"Content with characters ', \" or & may need to be escaped with three brackets","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m Content with characters ', \" or & may need to be escaped with three brackets"}}
+[info] >  {{{ content }}} {"user":"{{{ content }}}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m {{{ content }}}"}}
+[info] >  See https://sendgrid.com/docs/for-developers/sending-email/using-handlebars/ for more information. {"user":"See https://sendgrid.com/docs/for-developers/sending-email/using-handlebars/ for more information.","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m See https://sendgrid.com/docs/for-developers/sending-email/using-handlebars/ for more information."}}
+[info] >  was this successful {"user":"was this successful","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-sendPdfEmail"},"extension":{},"message":"\u001b[90m> \u001b[39m was this successful"}}
+[debug] [2023-04-09T00:39:08.605Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:39:09.609Z] Validating nodejs source
+[debug] [2023-04-09T00:39:10.505Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:39:10.505Z] Building nodejs source
+[debug] [2023-04-09T00:39:10.506Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:39:10.507Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:39:10.508Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:39:10.614Z] Serving at port 8733
+
+[debug] [2023-04-09T00:39:10.736Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:39:10.738Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:39:10.741Z] [functions] Loaded functions definitions from source: sendPdfEmail.
+[debug] [2023-04-09T00:39:10.741Z] DEBUG: [worker-pool] Shutting down IDLE worker (us-central1-sendPdfEmail)
+[debug] [2023-04-09T00:39:10.741Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: FINISHING
+[debug] [2023-04-09T00:39:10.745Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: exited
+[debug] [2023-04-09T00:39:10.745Z] DEBUG: [worker-us-central1-sendPdfEmail-5c27ca92-fdc8-4e70-bd9b-7b3f45b6b80b]: FINISHED
+[debug] [2023-04-09T00:41:46.290Z] DEBUG: File /Users/trell/Projects/node-js/functions/lib/index.js changed, reloading triggers
+[debug] [2023-04-09T00:41:47.304Z] Validating nodejs source
+[debug] [2023-04-09T00:41:48.037Z] > [functions] package.json contents: {
+  "name": "functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": "16"
+  }
+}
+[debug] [2023-04-09T00:41:48.038Z] Building nodejs source
+[debug] [2023-04-09T00:41:48.038Z] Failed to find version of module node: reached end of search path /Users/trell/Projects/node-js/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "16" doesn't match your global version "17". Using node@17 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-04-09T00:41:48.039Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-09T00:41:48.040Z] Found firebase-functions binary at '/Users/trell/Projects/node-js/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-04-09T00:41:48.158Z] Serving at port 8853
+
+[debug] [2023-04-09T00:41:48.293Z] Got response from /__/functions.yaml {"endpoints":{"sendPdfEmail":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"sendPdfEmail"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-09T00:41:48.295Z] shutdown requested via /__/quitquitquit
+
+[debug] [2023-04-09T00:41:48.299Z] [functions] Loaded functions definitions from source: sendPdfEmail.
