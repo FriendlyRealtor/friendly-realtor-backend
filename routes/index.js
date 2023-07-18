@@ -38,4 +38,9 @@ router.get('/local-restaurants', function (req, res) {
 	});
 })
 
+router.post('/credit-report', function(req, res, next) {
+	res.send('heleo World')
+});
+
+
 module.exports = router;
