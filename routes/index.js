@@ -42,5 +42,34 @@ router.post('/credit-report', function(req, res, next) {
 	res.send('heleo World')
 });
 
+router.post('/new-subscriber', async (req, res) => {
+  const { emailAddress, firstName, lastName } = req.query;
+
+  const username = process.env.HomeFinderUsername;
+  const password = process.env.HomeFinderPassword;
+
+  // Combine username and password in the format "username:password"
+  const credentials = username + ':' + password;
+
+  // Encode the credentials to base64 using Buffer
+  const authHeader = 'Basic ' + Buffer.from(credentials).toString('base64');
+
+  const options = {
+    method: 'POST',
+    url: `${process.env.IDXHome}/subscribers.json`,
+    params: { emailAddress, firstName, lastName },
+    headers: {
+      Authorization: authHeader,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    const { data } = response;
+    res.send(data);
+  } catch (error) {
+    res.send(error.response.data);
+  }
+});
 
 module.exports = router;
