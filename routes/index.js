@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios = require("axios");
 
-const requestBody = {
+const experianRequestBody = {
   "consumerPii": {
     "primaryApplicant": {
       "name": {
@@ -155,7 +155,7 @@ async function getAccessToken() {
 router.post('/credit-report/:uid', async function(req, res, next) {
   try {
 		const { accessToken } = await getAccessToken();
-    const response = await axios.post(process.env.ExperianCreditReportURL, requestBody, {
+    const response = await axios.post(process.env.ExperianCreditReportURL, experianRequestBody, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
