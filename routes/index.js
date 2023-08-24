@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const axios = require("axios");
+const OpenAi = require("openai");
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -37,5 +38,81 @@ router.get('/local-restaurants', function (req, res) {
 		res.send(error)
 	});
 })
+
+router.post('/new-subscriber', async (req, res) => {
+  const { emailAddress, firstName, lastName } = req.query;
+
+  const username = process.env.HomeFinderUsername;
+  const password = process.env.HomeFinderPassword;
+
+  // Combine username and password in the format "username:password"
+  const credentials = username + ':' + password;
+
+  // Encode the credentials to base64 using Buffer
+  const authHeader = 'Basic ' + Buffer.from(credentials).toString('base64');
+
+  const options = {
+    method: 'POST',
+    url: `${process.env.IDXHome}/subscribers.json`,
+    params: { emailAddress, firstName, lastName },
+    headers: {
+      Authorization: authHeader,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    const { data } = response;
+    res.send(data);
+  } catch (error) {
+    res.send(error.response.data);
+  }
+});
+
+router.post('/prompt', async (req, res) => {
+  const openai = new OpenAI({
+		apiKey: process.env.OpenApiKey,
+	});
+	
+	const chatOptions = {
+		model: "gpt-3.5-turbo",
+		messages: [
+			{
+				"role": "system",
+				"content": "You will be provided with some realtor messages, and your task is to convert which client should I reach out to first."
+			},
+			{
+				"role": "user",
+				"content": JSON.stringify([
+					{
+						"name": "trell",
+						"content": "I want to buy a house on 9/13/2023."
+					},
+					{
+						"name": "ABc",
+						"content": "I want to buy a house on 5/13/2022."
+					},
+					{
+						"name": "fred",
+						"content": "I want to buy a house on 5/13/2023."
+					}
+				])
+			}
+		],
+		temperature: 0,
+		max_tokens: 256,
+		top_p: 1,
+		frequency_penalty: 0,
+		presence_penalty: 0,
+	};
+	
+	try {
+		const response = await openai.chat.completions.create(chatOptions);
+		const { data } = response;
+    res.send(data);
+	} catch (error) {
+		res.send(error.response.data);
+	}
+});
 
 module.exports = router;
