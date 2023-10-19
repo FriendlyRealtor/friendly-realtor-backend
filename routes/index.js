@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const axios = require("axios");
-const OpenAi = require("openai");
+const OpenAI = require('openai');
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -70,49 +70,34 @@ router.post('/new-subscriber', async (req, res) => {
 });
 
 router.post('/prompt', async (req, res) => {
-  const openai = new OpenAI({
-		apiKey: process.env.OpenApiKey,
-	});
-	
-	const chatOptions = {
-		model: "gpt-3.5-turbo",
-		messages: [
-			{
-				"role": "system",
-				"content": "You will be provided with some realtor messages, and your task is to convert which client should I reach out to first."
-			},
-			{
-				"role": "user",
-				"content": JSON.stringify([
-					{
-						"name": "trell",
-						"content": "I want to buy a house on 9/13/2023."
-					},
-					{
-						"name": "ABc",
-						"content": "I want to buy a house on 5/13/2022."
-					},
-					{
-						"name": "fred",
-						"content": "I want to buy a house on 5/13/2023."
-					}
-				])
-			}
-		],
-		temperature: 0,
-		max_tokens: 256,
-		top_p: 1,
-		frequency_penalty: 0,
-		presence_penalty: 0,
-	};
-	
-	try {
-		const response = await openai.chat.completions.create(chatOptions);
-		const { data } = response;
-    res.send(data);
-	} catch (error) {
-		res.send(error.response.data);
-	}
+
+	const { prompt } = req.body
+	const openai = new OpenAI({
+    apiKey: process.env.OpenApiKey,
+  });
+
+  const chatOptions = {
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        "role": "system",
+        "content": prompt
+      }
+    ],
+    temperature: 0,
+    max_tokens: 256,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+  };
+
+  try {
+    const response = await openai.chat.completions.create(chatOptions);
+    const { choices } = response;
+    res.send(choices[0]);
+  } catch (error) {
+    res.send(error.response.data);
+  }
 });
 
 module.exports = router;
