@@ -5,16 +5,8 @@ const routes = require('./routes');
 const cors = require('cors');
 const PORT = process.env.PORT || 5001;
 
-const allowedOrigins = ['http://localhost:3000', 'https://friendlyrealtor.app'];
-
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: [process.env.FrontEndURL]
 };
 
 app.use(express.json());
