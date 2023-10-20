@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const axios = require("axios");
+const OpenAI = require('openai');
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -63,6 +64,37 @@ router.post('/new-subscriber', async (req, res) => {
     const response = await axios.request(options);
     const { data } = response;
     res.send(data);
+  } catch (error) {
+    res.send(error.response.data);
+  }
+});
+
+router.post('/prompt', async (req, res) => {
+
+	const { prompt } = req.body
+	const openai = new OpenAI({
+    apiKey: process.env.OpenApiKey,
+  });
+
+  const chatOptions = {
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        "role": "system",
+        "content": prompt
+      }
+    ],
+    temperature: 0,
+    max_tokens: 256,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+  };
+
+  try {
+    const response = await openai.chat.completions.create(chatOptions);
+    const { choices } = response;
+    res.send(choices[0]);
   } catch (error) {
     res.send(error.response.data);
   }

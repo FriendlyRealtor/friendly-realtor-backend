@@ -1,5 +1,6 @@
 // Bring in our dependencies
 require('dotenv').config()
+const express = require('express');
 const app = require('express')();
 const routes = require('./routes');
 const cors = require('cors');
@@ -18,6 +19,7 @@ const corsOptions = {
 };
 
 //  Connect all our routes to our application
+app.use(express.json())
 app.use(cors(corsOptions))
 app.use('/', routes);
 
