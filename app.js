@@ -1,15 +1,14 @@
-// Bring in our dependencies
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
-const app = require('express')();
+const app = express();
 const routes = require('./routes');
 const cors = require('cors');
 const PORT = process.env.PORT || 5001;
 
 const allowedOrigins = ['http://localhost:3000', 'https://friendlyrealtor.app'];
+
 const corsOptions = {
   origin: function (origin, callback) {
-    // Check if the requesting origin is in the allowedOrigins array
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
@@ -18,12 +17,14 @@ const corsOptions = {
   },
 };
 
-//  Connect all our routes to our application
-app.use(express.json())
-app.use(cors(corsOptions))
+app.use(express.json());
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
 app.use('/', routes);
 
-// Turn on that server!
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
