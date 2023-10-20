@@ -6,15 +6,11 @@ const cors = require('cors');
 const PORT = process.env.PORT || 5001;
 
 const corsOptions = {
-  origin: "*"
+  origin: true
 };
 
-app.use(express.json());
 app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
+app.use(express.json());
 app.use('/', routes);
 
 app.listen(PORT, () => {
