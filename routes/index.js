@@ -81,11 +81,11 @@ router.post('/prompt', async (req, res) => {
     messages: [
       {
         "role": "system",
-        "content": prompt
+        "content": `Write in bullet point format ${prompt}`
       }
     ],
     temperature: 0,
-    max_tokens: 256,
+    max_tokens: 120,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
