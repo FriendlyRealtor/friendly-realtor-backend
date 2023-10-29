@@ -3,6 +3,10 @@ const router = express.Router();
 const axios = require("axios");
 const OpenAI = require('openai');
 
+const openai = new OpenAI({
+	apiKey: process.env.OpenApiKey,
+});
+
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
 	const options = {
@@ -72,9 +76,6 @@ router.post('/new-subscriber', async (req, res) => {
 router.post('/prompt', async (req, res) => {
 
 	const { prompt } = req.body
-	const openai = new OpenAI({
-    apiKey: process.env.OpenApiKey,
-  });
 
   const chatOptions = {
     model: "gpt-3.5-turbo",
@@ -96,8 +97,44 @@ router.post('/prompt', async (req, res) => {
     const { choices } = response;
     res.send(choices[0]);
   } catch (error) {
-    res.send(error.response.data);
+    res.send(error);
   }
 });
+
+router.post('/mobile-prompt', async (req, res) => {
+	const { inputMessage } = req.body;
+
+  const chatOptions = {
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        "role": "system",
+        "content": inputMessage || ''
+      }
+    ]
+  };
+
+	try {
+		const response = await openai.chat.completions.create(chatOptions)
+    res.send(response);
+	} catch (error) {
+    res.send(error);
+	}
+})
+
+router.post('/prompt-images', async (req, res) => {
+	const { inputMessage } = req.body;
+	
+	try {
+		const response = await openai.images.create({
+			prompt: inputMessage,
+			n: 1,
+			size: '1024x1024',
+		});
+    res.send(response);
+	} catch (error) {
+    res.send(error);
+	}
+})
 
 module.exports = router;
