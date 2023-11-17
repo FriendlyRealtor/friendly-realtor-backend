@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const axios = require("axios");
 const OpenAI = require('openai');
+const bizSdk = require('facebook-nodejs-business-sdk');
+
+const AdAccount = bizSdk.AdAccount;
+const AdCreative = bizSdk.AdCreative;
+
+const access_token = '<ACCESS_TOKEN>';
+const app_secret = '<APP_SECRET>';
+const app_id = '<APP_ID>';
+const id = '<AD_ACCOUNT_ID>';
+const api = bizSdk.FacebookAdsApi.init(access_token);
+const showDebugingInfo = true;
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
@@ -136,5 +147,28 @@ router.post('/prompt-images', async (req, res) => {
     res.send(error);
 	}
 })
+
+router.post('/create-facebook-ad', async (req, res) => {
+  const { objectStoryId } = req.body; // You might want to adjust this based on your requirements
+
+	if (showDebugingInfo) {
+		api.setDebug(true);
+	}
+	
+  const fields = [];
+  const params = {
+    name: 'Sample Promoted Post',
+    object_story_id: objectStoryId,
+  };
+
+  try {
+    const adCreative = await (new AdAccount(id)).createAdCreative(fields, params);
+    logApiCallResult('adcreatives api call complete.', adCreative);
+    res.send({ success: true, message: 'Facebook Ad created successfully.' });
+  } catch (error) {
+    console.error('Error creating Facebook Ad:', error);
+    res.status(500).send({ success: false, message: 'Error creating Facebook Ad.' });
+  }
+});
 
 module.exports = router;
