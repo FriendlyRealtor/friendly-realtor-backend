@@ -401,6 +401,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.4.0":
+  version: 1.6.2
+  resolution: "axios@npm:1.6.2"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 4a7429e2b784be0f2902ca2680964391eae7236faa3967715f30ea45464b98ae3f1c6f631303b13dfe721b17126b01f486c7644b9ef276bfc63112db9fd379f8
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -778,6 +789,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"currency-codes@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "currency-codes@npm:1.5.1"
+  dependencies:
+    first-match: ~0.0.1
+    nub: ~0.0.0
+  checksum: 6e47da4eec1cd6086d4f8477120dcddfdb837bdf23bcb7b351a36eca7c9e343cc2a830e4573fba596e2d20789e34f92f095d15b2e535be50c39eac14efb41f4f
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:~2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -1115,6 +1136,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"facebook-nodejs-business-sdk@npm:^18.0.3":
+  version: 18.0.3
+  resolution: "facebook-nodejs-business-sdk@npm:18.0.3"
+  dependencies:
+    axios: ^1.4.0
+    currency-codes: ^1.5.1
+    iso-3166-1: ^2.1.1
+    js-sha256: ^0.9.0
+    mixwith: ~0.1.1
+  checksum: fffc172d7a5d5645efdae826e3babec705e203e4eeaa8a79767846985089595b307b3a664de42099e5c5b09a55446a026502bba4e933185230b919ecb786913b
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -1185,6 +1219,13 @@ __metadata:
     locate-path: ^6.0.0
     path-exists: ^4.0.0
   checksum: 07955e357348f34660bde7920783204ff5a26ac2cafcaa28bace494027158a97b9f56faaf2d89a6106211a8174db650dd9f503f9c0d526b1202d5554a00b9095
+  languageName: node
+  linkType: hard
+
+"first-match@npm:~0.0.1":
+  version: 0.0.1
+  resolution: "first-match@npm:0.0.1"
+  checksum: 5ed217591bc59634b9ffa15ad0340401781214827ddca4f17f6854181acac3d05818e389ae1241570ce2311a49655bfb63754da62833a085bbc3217a919bb596
   languageName: node
   linkType: hard
 
@@ -1650,6 +1691,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"iso-3166-1@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "iso-3166-1@npm:2.1.1"
+  checksum: 01c7027381baabd82e24d869a46f57cb8d4deb7ca3686d5aaca4f8c0b20c5287be84e8bc142cbbad461a0ac7b9aaaabfb2d8fe132ccc39cdf82f542d71e791d8
+  languageName: node
+  linkType: hard
+
 "jackspeak@npm:^2.3.5":
   version: 2.3.6
   resolution: "jackspeak@npm:2.3.6"
@@ -1680,6 +1728,13 @@ __metadata:
   bin:
     jade: ./bin/jade.js
   checksum: 767a84243cc97e05327608df2a88f8d78eb05f5f7fb654fd3a4caf2c65489df52041f8bfc36c1c0194fcadae4c8e18f4b80da3d6920a1c0ff94d8b9b15bbdcf0
+  languageName: node
+  linkType: hard
+
+"js-sha256@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "js-sha256@npm:0.9.0"
+  checksum: ffad54b3373f81581e245866abfda50a62c483803a28176dd5c28fd2d313e0bdf830e77dac7ff8afd193c53031618920f3d98daf21cbbe80082753ab639c0365
   languageName: node
   linkType: hard
 
@@ -2002,6 +2057,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mixwith@npm:~0.1.1":
+  version: 0.1.1
+  resolution: "mixwith@npm:0.1.1"
+  checksum: 51b2afb3b57af83294d4d50111cbe0eaccb80d0a8aea2e7e3fdb7eebec0db7a0c87ea2c4bcd9937e4ce36944b3bf3e65f4348e202a4dcf40f72c035d11a1899a
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:^1.0.3":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
@@ -2123,6 +2185,7 @@ __metadata:
     dotenv: ^16.0.3
     eslint: ^8.34.0
     express: ~4.16.1
+    facebook-nodejs-business-sdk: ^18.0.3
     http-errors: ~1.6.3
     jade: ~1.11.0
     lodash: ^4.17.21
@@ -2190,6 +2253,13 @@ __metadata:
     gauge: ^4.0.3
     set-blocking: ^2.0.0
   checksum: ae238cd264a1c3f22091cdd9e2b106f684297d3c184f1146984ecbe18aaa86343953f26b9520dedd1b1372bc0316905b736c1932d778dbeb1fcf5a1001390e2a
+  languageName: node
+  linkType: hard
+
+"nub@npm:~0.0.0":
+  version: 0.0.0
+  resolution: "nub@npm:0.0.0"
+  checksum: a84a82a052027ebaa433161af0c7c85ae5a71991d5b6cf7b76ff3bdd4c5667073b6cb391649d9d217ff835b047f6b102b90526f1905ce2a1f618f958ed00bce1
   languageName: node
   linkType: hard
 
