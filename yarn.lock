@@ -136,6 +136,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sendgrid/client@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@sendgrid/client@npm:8.1.0"
+  dependencies:
+    "@sendgrid/helpers": ^8.0.0
+    axios: ^1.6.0
+  checksum: baa5fdfede6f24a359753a379b591c28d6bdb0b1f16a6e521fcfe84f0be04971463049f0ca6bbc6e8690b16ac70cd3bb25fd1383e257d3c13993abb5beecfcd0
+  languageName: node
+  linkType: hard
+
+"@sendgrid/helpers@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@sendgrid/helpers@npm:8.0.0"
+  dependencies:
+    deepmerge: ^4.2.2
+  checksum: 758cab1cb67c8d32632c7a599b2840186dcebc7e9fbc382633b5268d08ecf1de80817730ccbb5d0ad61905407070fa0a59c54d523e7b808b35b403ea0d4db22d
+  languageName: node
+  linkType: hard
+
+"@sendgrid/mail@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@sendgrid/mail@npm:8.1.0"
+  dependencies:
+    "@sendgrid/client": ^8.1.0
+    "@sendgrid/helpers": ^8.0.0
+  checksum: 013bb550e8633434b5b760e99c07f962b87c187492e993aa0ff0f096a2f48a8ee99ddeda4228b0ee5ff3dfc762cb493ee15e472c4634f7e9ed03765533fcdbac
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -401,7 +430,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0":
+"axios@npm:^1.4.0, axios@npm:^1.6.0":
   version: 1.6.2
   resolution: "axios@npm:1.6.2"
   dependencies:
@@ -840,6 +869,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: edb65dd0d7d1b9c40b2f50219aef30e116cedd6fc79290e740972c132c09106d2e80aa0bc8826673dd5a00222d4179c84b36a790eef63a4c4bca75a37ef90804
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.2.2":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 2024c6a980a1b7128084170c4cf56b0fd58a63f2da1660dcfe977415f27b17dbe5888668b59d0b063753f3220719d5e400b7f113609489c90160bb9a5518d052
   languageName: node
   linkType: hard
 
@@ -2178,6 +2214,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-js@workspace:."
   dependencies:
+    "@sendgrid/mail": ^8.1.0
     axios: ^1.3.3
     cookie-parser: ~1.4.4
     cors: ^2.8.5

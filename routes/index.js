@@ -2,21 +2,12 @@ const express = require('express');
 const router = express.Router();
 const axios = require("axios");
 const OpenAI = require('openai');
-const bizSdk = require('facebook-nodejs-business-sdk');
-
-const AdAccount = bizSdk.AdAccount;
-const AdCreative = bizSdk.AdCreative;
-
-const access_token = '<ACCESS_TOKEN>';
-const app_secret = '<APP_SECRET>';
-const app_id = '<APP_ID>';
-const id = '<AD_ACCOUNT_ID>';
-const api = bizSdk.FacebookAdsApi.init(access_token);
-const showDebugingInfo = true;
+const sgMail = require("@sendgrid/mail");
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
 });
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -192,6 +183,39 @@ router.post('/grant-facebook-access', async (req, res) => {
     console.error('Error granting Facebook access:', error);
     res.status(500).send({ success: false, message: 'Error granting Facebook access.' });
   }
+});
+
+
+router.post('/send-event-email', async (req, res) => {
+	const { virtual, link, location, date, name, email } = req.body;
+
+	const message = `
+			Thank you for your participation in Event ${name}!
+
+			Please find additional details below.
+
+			${virtual ? `Event Link: ${link}` : `Event Location: ${location}`} 
+			Event Time: ${date}
+
+
+			Best regards,
+			Montrell Jubilee
+	`;
+
+	const msg = {
+			to: email,
+			from: 'jubileeinvestmentsdmv@gmail.com',
+			subject: 'Thanks for your participation in Event ',
+			text: message
+	};
+
+	try {
+			await sgMail.send(msg);
+			res.status(200).send('Email sent successfully!');
+	} catch (error) {
+			console.error(error);
+			res.status(500).send('Error sending email!');
+	}
 });
 
 module.exports = router;
