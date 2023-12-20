@@ -6,6 +6,7 @@ const sgMail = require("@sendgrid/mail");
 const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
+const stripe = require('stripe')(process.env.StripeClientSecret);
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
@@ -398,6 +399,60 @@ router.post('/create-recurring-transfer', async (req, res) => {
     res.status(500).json({
       error: 'Internal server error',
     });
+  }
+});
+
+router.post('/create-payment-method', async (req, res) => {
+  try {
+		const { userId,  number,
+			exp_month,
+			exp_year,
+			cvc,
+			name } = req.body;
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: 'card',
+      card: {
+        number: number,
+        exp_month: exp_month,
+        exp_year: exp_year,
+        cvc: cvc,
+      },
+			billing_details: {
+				name: name
+			}
+    });
+		console.log(paymentMethod)
+    res.json({ paymentMethod });
+  } catch (error) {
+		console.log(error)
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/retrieve-payment-method/:customerId/:paymentMethodId', async (req, res) => {
+  try {
+    const { customerId, paymentMethodId } = req.params;
+    const paymentMethod = await stripe.customers.retrievePaymentMethod(customerId, paymentMethodId);
+		console.log(paymentMethod)
+
+    res.json({ paymentMethod });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/update-payment-method', async (req, res) => {
+  try {
+    const paymentMethodId = 'pm_1MqLiJLkdIwHu7ixUEgbFdYF'; // Replace with your payment method ID
+    const updatedPaymentMethod = await stripe.paymentMethods.update(paymentMethodId, {
+      metadata: {
+        order_id: '6735',
+      },
+    });
+
+    res.json({ updatedPaymentMethod });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
