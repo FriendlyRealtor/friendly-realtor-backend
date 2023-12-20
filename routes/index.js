@@ -488,14 +488,14 @@ router.post('/get-balances', async (req, res) => {
 });
 
 router.post('/send-event-email', async (req, res) => {
-	const { virtual, link, location, date, name, email } = req.body;
+	const { virtual, eventLink, location, date, name, email } = req.body;
 
 	const message = `
 			Thank you for your participation in Event ${name}!
 
 			Please find additional details below.
 
-			${virtual ? `Event Link: ${link}` : `Event Location: ${location}`} 
+			${virtual ? `Event Link: ${eventLink}` : `Event Location: ${location}`} 
 			Event Time: ${date}
 
 
@@ -505,7 +505,7 @@ router.post('/send-event-email', async (req, res) => {
 
 	const msg = {
 			to: email,
-			from: 'jubileeinvestmentsdmv@gmail.com',
+			from: 'contact@friendlyrealtor.app',
 			subject: 'Thanks for your participation in Event ',
 			text: message
 	};
