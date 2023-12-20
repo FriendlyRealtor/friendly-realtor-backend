@@ -4,6 +4,8 @@ const axios = require("axios");
 const OpenAI = require('openai');
 const sgMail = require("@sendgrid/mail");
 const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
+const { v4: uuidv4 } = require('uuid');
+const moment = require('moment');
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
@@ -317,6 +319,74 @@ router.get('/accounts', async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.post('/create-recurring-transfer', async (req, res) => {
+  try {
+    const { accessToken, fromAccountID, toAccountID, amount, frequency, name } = req.body;
+
+    if (!accessToken || !fromAccountID || !toAccountID || !amount || !frequency) {
+      return res.status(400).json({
+        error: 'Missing required parameters',
+      });
+    }
+
+		const formattedAmount = amount.toFixed(2);
+		const fromIdempotencyKey = uuidv4();
+		const toIdempotencyKey = uuidv4();
+		const startDate = moment().format('YYYY-MM-DD');
+
+		const frequencyMap = {
+			weekly: { interval_unit: 'week', interval_count: 1, interval_execution_day: 1, start_date: startDate },
+			'bi-weekly': { interval_unit: 'week', interval_count: 2, interval_execution_day: 1, start_date: startDate },
+			monthly: { interval_unit: 'month', interval_count: 1, interval_execution_day: 1, start_date: startDate },
+		};
+
+		const schedule = frequencyMap[frequency];
+	
+
+		
+	const fromAccountResponse = await plaidClient.transferRecurringCreate({
+		idempotency_key: fromIdempotencyKey,
+		access_token: accessToken,
+		account_id: fromAccountID,
+		type: 'credit',
+		network: 'ach',
+		amount: formattedAmount,
+		ach_class: 'web',
+		user: {
+			legal_name: name,
+		},
+		description: 'from payment',
+		schedule: schedule
+	});
+
+	const toAccountResponse = await plaidClient.transferRecurringCreate({
+		idempotency_key: toIdempotencyKey,
+		access_token: accessToken,
+		account_id: toAccountID,
+		type: 'debit',
+		network: 'ach',
+		amount: formattedAmount,
+		ach_class: 'web',
+		user: {
+			legal_name: name,
+		},
+		description: 'to payment',
+		schedule: schedule
+	});
+
+    res.json({
+      success: true,
+      fromAccount: fromAccountResponse.data,
+			toAccount: toAccountResponse.data
+    });
+  } catch (error) {
+    console.error('Error in recurring transfer endpoint:', error);
     res.status(500).json({
       error: 'Internal server error',
     });
