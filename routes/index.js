@@ -3,11 +3,32 @@ const router = express.Router();
 const axios = require("axios");
 const OpenAI = require('openai');
 const sgMail = require("@sendgrid/mail");
+const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
+const { v4: uuidv4 } = require('uuid');
+const moment = require('moment');
+const stripe = require('stripe')(process.env.StripeClientSecret);
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
 });
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const PLAID_PRODUCTS = (Products.Transactions, Products.Auth, Products.Balance, Products.Transfer).split(
+  ',',
+);
+const configuration = new Configuration({
+  basePath: PlaidEnvironments[process.env.PlaidEnv],
+  baseOptions: {
+    headers: {
+      'PLAID-CLIENT-ID': process.env.PlaidClientID,
+      'PLAID-SECRET': process.env.PlaidSecretKey,
+      'Plaid-Version': '2020-09-14',
+    },
+  },
+	products: PLAID_PRODUCTS,
+});
+
+const plaidClient = new PlaidApi(configuration);
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -185,6 +206,286 @@ router.post('/grant-facebook-access', async (req, res) => {
   }
 });
 
+router.post('/create-link-token', async (req, res) => {
+	try {
+		const { userId } = req.body;
+
+		if (!userId) {
+			return res.status(400).json({
+				error: 'Missing user ID',
+			});
+		}
+
+		const configs = {
+			user: {
+				// This should correspond to a unique id for the current user.
+				client_user_id: userId,
+			},
+			client_name: 'FriendlyRealtor',
+			products: PLAID_PRODUCTS,
+			country_codes: ['US'],
+			language: 'en',
+		};
+		const createTokenResponse = await plaidClient.linkTokenCreate(configs);
+
+    res.send(createTokenResponse.data);
+  } catch (error) {
+		res.status(500).send(error);
+  }
+})
+
+router.post('/set-access-token', async (req, res) => {
+  try {
+    const { public_token } = req.body;
+
+    if (!public_token) {
+      return res.status(400).json({
+        error: 'Missing public token',
+      });
+    }
+
+    const tokenResponse = await plaidClient.itemPublicTokenExchange({
+      public_token: public_token,
+    });
+
+    // Extract the access token from the response
+    const access_token = tokenResponse.data.access_token;
+
+    res.json({
+      access_token: access_token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.post('/unlink-bank-account', async (req, res) => {
+  try {
+		const { plaidAccessToken } = req.body;
+    if (!plaidAccessToken) {
+      return res.status(400).json({
+        error: 'User is not linked to a Plaid account',
+      });
+    }
+
+    // Call Plaid API to remove the item (bank account) associated with the user
+    const removeItemResponse = await plaidClient.itemRemove({
+      access_token: plaidAccessToken,
+    });
+
+    res.json({ result: removeItemResponse.data });
+  } catch (error) {
+    console.error('Error unlinking bank account:', error);
+
+    if (error.statusCode === 404) {
+      // Handle case where the item (bank account) was not found
+      return res.status(404).json({
+        error: 'Bank account not found',
+      });
+    }
+
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.get('/accounts', async (req, res) => {
+  try {
+    // You should handle authentication and authorization here, e.g., validate JWT
+
+    // Get the access token from the request headers
+    const access_token = req.headers.authorization.split(' ')[1];
+
+    if (!access_token) {
+      return res.status(401).json({
+        error: 'Unauthorized: Missing access token',
+      });
+    }
+
+    // Fetch accounts using the Plaid API
+    const accountsResponse = await plaidClient.accountsGet({
+      access_token: access_token,
+    });
+
+    // Extract relevant account information
+    const accountsData = accountsResponse.data;
+
+    res.json({
+      accounts: accountsData.accounts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.post('/create-recurring-transfer', async (req, res) => {
+  try {
+    const { accessToken, fromAccountID, toAccountID, amount, frequency, name } = req.body;
+    if (!accessToken || !fromAccountID || !toAccountID || !amount || !frequency) {
+      return res.status(400).json({
+        error: 'Missing required parameters',
+      });
+    }
+
+		const formattedAmount = amount.toFixed(2);
+		const fromIdempotencyKey = uuidv4();
+		const toIdempotencyKey = uuidv4();
+		const startDate = moment().format('YYYY-MM-DD');
+
+		const frequencyMap = {
+			weekly: { interval_unit: 'week', interval_count: 1, interval_execution_day: 1, start_date: startDate },
+			'bi-weekly': { interval_unit: 'week', interval_count: 2, interval_execution_day: 1, start_date: startDate },
+			monthly: { interval_unit: 'month', interval_count: 1, interval_execution_day: 1, start_date: startDate },
+		};
+
+		const schedule = frequencyMap[frequency];
+	
+	const fromAccountResponse = await plaidClient.transferRecurringCreate({
+		idempotency_key: fromIdempotencyKey,
+		access_token: accessToken,
+		account_id: fromAccountID,
+		type: 'credit',
+		network: 'ach',
+		amount: formattedAmount,
+		ach_class: 'web',
+		user: {
+			legal_name: name,
+		},
+		description: 'from payment',
+		schedule: schedule
+	});
+
+	const toAccountResponse = await plaidClient.transferRecurringCreate({
+		idempotency_key: toIdempotencyKey,
+		access_token: accessToken,
+		account_id: toAccountID,
+		type: 'debit',
+		network: 'ach',
+		amount: formattedAmount,
+		ach_class: 'web',
+		user: {
+			legal_name: name,
+		},
+		description: 'to payment',
+		schedule: schedule
+	});
+
+	const fromAccount = fromAccountResponse.data;
+	const toAccount = toAccountResponse.data;
+
+	const fromRetrieveTransfer = await plaidClient.transferRecurringGet({
+		recurring_transfer_id: fromAccount.recurring_transfer.recurring_transfer_id
+	})
+
+	const toRetrieveTransfer = await plaidClient.transferRecurringGet({
+		recurring_transfer_id: toAccount.recurring_transfer.recurring_transfer_id
+	})
+
+	res.json({
+		success: true,
+		fromAccount: fromAccount,
+		toAccount: toAccount,
+		fromRetrieveTransfer: fromRetrieveTransfer.data,
+		toRetrieveTransfer: toRetrieveTransfer.data
+	});
+  } catch (error) {
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.post('/remove-payment-method', async (req, res) => {
+	try {
+		const { paymentMethodId } = req.body;
+		const response = await stripe.paymentMethods.detach(
+			paymentMethodId
+		);
+		res.json({ response })
+	} catch {
+		res.status(500).json({ error: error.message });
+	}
+})
+router.post('/create-payment-method', async (req, res) => {
+  try {
+		const { customerId, userId, paymentMethodId, email, name, alreadyCard } = req.body;
+		if (!alreadyCard) {
+			const customer = await stripe.customers.create({
+				email: email, 
+				payment_method: paymentMethodId,
+				description: `${userId} website customer`,
+				name: name
+			});
+	
+			await stripe.customers.update(customer.id, {
+				invoice_settings: {
+					default_payment_method: paymentMethodId
+				}
+			})
+	
+			const attachedPayment = await stripe.paymentMethods.attach(paymentMethodId, {
+				customer: customer.id,
+			});
+			res.json({ attachedPayment });
+		} else {
+				const attachedPayment = await stripe.paymentMethods.attach(
+					paymentMethodId,
+					{
+						customer: customerId,
+					}
+				);
+				await stripe.customers.update(customerId, {
+					email: email,
+					name: name,
+					invoice_settings: {
+						default_payment_method: paymentMethodId
+					}
+				})
+				res.json({ attachedPayment });
+		}
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/retrieve-payment-method/:customerId/:paymentMethodId', async (req, res) => {
+  try {
+    const { customerId, paymentMethodId } = req.params;
+    const paymentMethod = await stripe.customers.retrievePaymentMethod(customerId, paymentMethodId);
+
+    res.json({ paymentMethod });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/get-balances', async (req, res) => {
+  const { accessToken } = req.body;
+
+  try {
+    const balancesResponse = await plaidClient.accountsBalanceGet({
+			access_token: accessToken
+		})
+
+    const balances = balancesResponse.data.accounts.map((account) => ({
+      account_id: account.account_id,
+      name: account.name,
+      balances: account.balances,
+    }));
+
+    res.json({ balances });
+  } catch (error) {
+    console.error('Error fetching balances:', error);
+    res.status(500).json({ error: 'Failed to fetch balances' });
+  }
+});
 
 router.post('/send-event-email', async (req, res) => {
 	const { virtual, link, location, date, name, email } = req.body;
