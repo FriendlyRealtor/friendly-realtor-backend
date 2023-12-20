@@ -229,7 +229,6 @@ router.post('/create-link-token', async (req, res) => {
 
     res.send(createTokenResponse.data);
   } catch (error) {
-		console.log(error)
 		res.status(500).send(error);
   }
 })
@@ -328,7 +327,6 @@ router.get('/accounts', async (req, res) => {
 router.post('/create-recurring-transfer', async (req, res) => {
   try {
     const { accessToken, fromAccountID, toAccountID, amount, frequency, name } = req.body;
-
     if (!accessToken || !fromAccountID || !toAccountID || !amount || !frequency) {
       return res.status(400).json({
         error: 'Missing required parameters',
@@ -348,8 +346,6 @@ router.post('/create-recurring-transfer', async (req, res) => {
 
 		const schedule = frequencyMap[frequency];
 	
-
-		
 	const fromAccountResponse = await plaidClient.transferRecurringCreate({
 		idempotency_key: fromIdempotencyKey,
 		access_token: accessToken,
@@ -380,16 +376,49 @@ router.post('/create-recurring-transfer', async (req, res) => {
 		schedule: schedule
 	});
 
-    res.json({
-      success: true,
-      fromAccount: fromAccountResponse.data,
-			toAccount: toAccountResponse.data
-    });
+	const fromAccount = fromAccountResponse.data;
+	const toAccount = toAccountResponse.data;
+
+	const fromRetrieveTransfer = await plaidClient.transferRecurringGet({
+		recurring_transfer_id: fromAccount.recurring_transfer.recurring_transfer_id
+	})
+
+	const toRetrieveTransfer = await plaidClient.transferRecurringGet({
+		recurring_transfer_id: toAccount.recurring_transfer.recurring_transfer_id
+	})
+
+	res.json({
+		success: true,
+		fromAccount: fromAccount,
+		toAccount: toAccount,
+		fromRetrieveTransfer: fromRetrieveTransfer.data,
+		toRetrieveTransfer: toRetrieveTransfer.data
+	});
   } catch (error) {
-    console.error('Error in recurring transfer endpoint:', error);
     res.status(500).json({
       error: 'Internal server error',
     });
+  }
+});
+
+router.post('/get-balances', async (req, res) => {
+  const { accessToken } = req.body;
+
+  try {
+    const balancesResponse = await plaidClient.accountsBalanceGet({
+			access_token: accessToken
+		})
+
+    const balances = balancesResponse.data.accounts.map((account) => ({
+      account_id: account.account_id,
+      name: account.name,
+      balances: account.balances,
+    }));
+
+    res.json({ balances });
+  } catch (error) {
+    console.error('Error fetching balances:', error);
+    res.status(500).json({ error: 'Failed to fetch balances' });
   }
 });
 
