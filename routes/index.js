@@ -402,29 +402,55 @@ router.post('/create-recurring-transfer', async (req, res) => {
   }
 });
 
+router.post('/remove-payment-method', async (req, res) => {
+	try {
+		const { paymentMethodId } = req.body;
+		const response = await stripe.paymentMethods.detach(
+			paymentMethodId
+		);
+		res.json({ response })
+	} catch {
+		res.status(500).json({ error: error.message });
+	}
+})
 router.post('/create-payment-method', async (req, res) => {
   try {
-		const { userId,  number,
-			exp_month,
-			exp_year,
-			cvc,
-			name } = req.body;
-    const paymentMethod = await stripe.paymentMethods.create({
-      type: 'card',
-      card: {
-        number: number,
-        exp_month: exp_month,
-        exp_year: exp_year,
-        cvc: cvc,
-      },
-			billing_details: {
+		const { customerId, userId, paymentMethodId, email, name, alreadyCard } = req.body;
+		if (!alreadyCard) {
+			const customer = await stripe.customers.create({
+				email: email, 
+				payment_method: paymentMethodId,
+				description: `${userId} website customer`,
 				name: name
-			}
-    });
-		console.log(paymentMethod)
-    res.json({ paymentMethod });
+			});
+	
+			await stripe.customers.update(customer.id, {
+				invoice_settings: {
+					default_payment_method: paymentMethodId
+				}
+			})
+	
+			const attachedPayment = await stripe.paymentMethods.attach(paymentMethodId, {
+				customer: customer.id,
+			});
+			res.json({ attachedPayment });
+		} else {
+				const attachedPayment = await stripe.paymentMethods.attach(
+					paymentMethodId,
+					{
+						customer: customerId,
+					}
+				);
+				await stripe.customers.update(customerId, {
+					email: email,
+					name: name,
+					invoice_settings: {
+						default_payment_method: paymentMethodId
+					}
+				})
+				res.json({ attachedPayment });
+		}
   } catch (error) {
-		console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -433,24 +459,8 @@ router.get('/retrieve-payment-method/:customerId/:paymentMethodId', async (req, 
   try {
     const { customerId, paymentMethodId } = req.params;
     const paymentMethod = await stripe.customers.retrievePaymentMethod(customerId, paymentMethodId);
-		console.log(paymentMethod)
 
     res.json({ paymentMethod });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post('/update-payment-method', async (req, res) => {
-  try {
-    const paymentMethodId = 'pm_1MqLiJLkdIwHu7ixUEgbFdYF'; // Replace with your payment method ID
-    const updatedPaymentMethod = await stripe.paymentMethods.update(paymentMethodId, {
-      metadata: {
-        order_id: '6735',
-      },
-    });
-
-    res.json({ updatedPaymentMethod });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
