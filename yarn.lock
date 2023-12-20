@@ -430,7 +430,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0, axios@npm:^1.6.0":
+"axios@npm:^1.4.0, axios@npm:^1.6.0, axios@npm:^1.6.2":
   version: 1.6.2
   resolution: "axios@npm:1.6.2"
   dependencies:
@@ -2229,6 +2229,7 @@ __metadata:
     morgan: ~1.9.1
     nodemon: ^2.0.20
     openai: ^4.0.1
+    plaid: ^18.1.0
   languageName: unknown
   linkType: soft
 
@@ -2459,6 +2460,15 @@ __metadata:
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
+  languageName: node
+  linkType: hard
+
+"plaid@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "plaid@npm:18.1.0"
+  dependencies:
+    axios: ^1.6.2
+  checksum: 7e2c095e847d9161e4567cd743188dbd9c8ead6d748e3399e0460b348fa1e0e88487a9c1f9106ccad3533ce94158032914f6e869c1a97ff6065a8e447f630cb5
   languageName: node
   linkType: hard
 

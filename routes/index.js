@@ -3,11 +3,29 @@ const router = express.Router();
 const axios = require("axios");
 const OpenAI = require('openai');
 const sgMail = require("@sendgrid/mail");
+const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
 
 const openai = new OpenAI({
 	apiKey: process.env.OpenApiKey,
 });
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const PLAID_PRODUCTS = (Products.Transactions, Products.Auth, Products.Balance, Products.Transfer).split(
+  ',',
+);
+const configuration = new Configuration({
+  basePath: PlaidEnvironments[process.env.PlaidEnv],
+  baseOptions: {
+    headers: {
+      'PLAID-CLIENT-ID': process.env.PlaidClientID,
+      'PLAID-SECRET': process.env.PlaidSecretKey,
+      'Plaid-Version': '2020-09-14',
+    },
+  },
+	products: PLAID_PRODUCTS,
+});
+
+const plaidClient = new PlaidApi(configuration);
 
 router.get('/crm', function(req, res, next) {
 	const { location } = req.query
@@ -185,6 +203,125 @@ router.post('/grant-facebook-access', async (req, res) => {
   }
 });
 
+router.post('/create-link-token', async (req, res) => {
+	try {
+		const { userId } = req.body;
+
+		if (!userId) {
+			return res.status(400).json({
+				error: 'Missing user ID',
+			});
+		}
+
+		const configs = {
+			user: {
+				// This should correspond to a unique id for the current user.
+				client_user_id: userId,
+			},
+			client_name: 'FriendlyRealtor',
+			products: PLAID_PRODUCTS,
+			country_codes: ['US'],
+			language: 'en',
+		};
+		const createTokenResponse = await plaidClient.linkTokenCreate(configs);
+
+    res.send(createTokenResponse.data);
+  } catch (error) {
+		console.log(error)
+		res.status(500).send(error);
+  }
+})
+
+router.post('/set-access-token', async (req, res) => {
+  try {
+    const { public_token } = req.body;
+
+    if (!public_token) {
+      return res.status(400).json({
+        error: 'Missing public token',
+      });
+    }
+
+    const tokenResponse = await plaidClient.itemPublicTokenExchange({
+      public_token: public_token,
+    });
+
+    // Extract the access token from the response
+    const access_token = tokenResponse.data.access_token;
+
+    res.json({
+      access_token: access_token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.post('/unlink-bank-account', async (req, res) => {
+  try {
+		const { plaidAccessToken } = req.body;
+    if (!plaidAccessToken) {
+      return res.status(400).json({
+        error: 'User is not linked to a Plaid account',
+      });
+    }
+
+    // Call Plaid API to remove the item (bank account) associated with the user
+    const removeItemResponse = await plaidClient.itemRemove({
+      access_token: plaidAccessToken,
+    });
+
+    res.json({ result: removeItemResponse.data });
+  } catch (error) {
+    console.error('Error unlinking bank account:', error);
+
+    if (error.statusCode === 404) {
+      // Handle case where the item (bank account) was not found
+      return res.status(404).json({
+        error: 'Bank account not found',
+      });
+    }
+
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
+
+router.get('/accounts', async (req, res) => {
+  try {
+    // You should handle authentication and authorization here, e.g., validate JWT
+
+    // Get the access token from the request headers
+    const access_token = req.headers.authorization.split(' ')[1];
+
+    if (!access_token) {
+      return res.status(401).json({
+        error: 'Unauthorized: Missing access token',
+      });
+    }
+
+    // Fetch accounts using the Plaid API
+    const accountsResponse = await plaidClient.accountsGet({
+      access_token: access_token,
+    });
+
+    // Extract relevant account information
+    const accountsData = accountsResponse.data;
+
+    res.json({
+      accounts: accountsData.accounts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+});
 
 router.post('/send-event-email', async (req, res) => {
 	const { virtual, link, location, date, name, email } = req.body;
