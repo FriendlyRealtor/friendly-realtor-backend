@@ -413,6 +413,22 @@ router.post('/remove-payment-method', async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 })
+
+router.post('/stripe-client-secret', async (req, res) => {
+	try {
+		const { cost } = req.body;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: cost,  // Amount in cents
+      currency: 'usd',
+    });
+
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    // console.error('Error creating PaymentIntent:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+})
+
 router.post('/create-payment-method', async (req, res) => {
   try {
 		const { customerId, userId, paymentMethodId, email, name, alreadyCard } = req.body;
